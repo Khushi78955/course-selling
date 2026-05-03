@@ -3,7 +3,7 @@ const { adminModel } = require("../db");
 const bcrypt = require("bcrypt");
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
-const { JWT_ADMIN_SECRET } = require("../config");
+const { JWT_ADMIN_PASSWORD } = require("../config");
 const { adminMiddleware } = require("../middleware/admin");
 
 const adminRouter = Router()
@@ -55,7 +55,7 @@ adminRouter.post("/signin", async function(req, res){
 
     const token = jwt.sign({
         id: admin._id
-    }, JWT_ADMIN_SECRET);
+    }, JWT_ADMIN_PASSWORD);
 
     res.json({
         message: "Signin successful",
@@ -85,7 +85,7 @@ adminRouter.post("/course", adminMiddleware, async function(req, res){
 })
 
 adminRouter.put("/course", function(req, res){
-    
+
     res.json({
         message: "signup endpoint"
     })
