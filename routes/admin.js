@@ -67,7 +67,7 @@ adminRouter.post("/signin", async function(req, res){
 
 
 adminRouter.post("/course", adminMiddleware, async function(req, res){
-    const adminId = req.admin.Id;
+    const adminId = req.adminId;
 
     const {title, description, imageUrl, price} = req.body;
 
@@ -88,7 +88,7 @@ adminRouter.post("/course", adminMiddleware, async function(req, res){
 
 
 adminRouter.put("/course", adminMiddleware, async function(req, res){
-    const adminId = req.userId;
+    const adminId = req.adminId;
 
     const {title, description, imageUrl, price, courseId} = req.body;
 
@@ -103,18 +103,23 @@ adminRouter.put("/course", adminMiddleware, async function(req, res){
         price
     })
 
+    if (result.matchedCount === 0) {
+        return res.status(403).json({
+            message: "Not allowed to update this course"
+        });
+    }
+
     res.json({
         message: "Course updated",
         courseId: course._id
     })
 
-    
 })
 
 
 
 adminRouter.get("/course/bulk", adminMiddleware, async function(req, res){
-    const adminId = req.userId;
+    const adminId = req.adminId;
 
     const courses = await courseModel.find({
         creatorId: adminId
