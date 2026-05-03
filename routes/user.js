@@ -35,27 +35,35 @@ userRouter.post("/signup", async function(req, res){
 
 userRouter.post("/signin", async function(req, res){
     const { email, password } = req.body;
-    const user = await userModel.find({
-        email,
-        password
+    
+    const user = await userModel.findOne({
+        email
     })
 
-    if(user) {
-        const token = jwt.sign({
-            id: user._id
-        }, JWT_USER_PASSWORD)
+    if(!user) {
+        res.status(403).json({
+            message: "User not found"
+        })
+    }
 
-        //COOKIE LOGIC IS USED HERE 
+    const isMatch = await bcrypt.compare(password, user.password);
 
-        res.json({
-            message: "signup endpoint"
-        })  
-    }   else{
-            res.status(403).json({
-                message: "Incorrect credentials"
-            })
-        }
+    if (!isMatch) {
+        return res.status(403).json({
+            message: "Incorrect password"
+        });
+    }
+
+    const token = jwt.sign({
+        id: user._id
+    }, JWT_USER_PASSWORD);
+
+    res.json({
+        message: "Signin successful",
+        token: token
+    })
 })
+
 
 userRouter.get("/purchases", function(req, res){
     res.json({
