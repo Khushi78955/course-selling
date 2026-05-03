@@ -6,7 +6,7 @@ const { userModel } = require("../db");
 const bcrypt = require("bcrypt");
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
-const JWT_USER_PASSWORD = process.env.JWT_USER_SECRET;
+const JWT_USER_SECRET = process.env.JWT_USER_PASSWORD
 
 
 const userRouter = Router();
@@ -56,7 +56,7 @@ userRouter.post("/signin", async function(req, res){
 
     const token = jwt.sign({
         id: user._id
-    }, JWT_USER_PASSWORD);
+    }, JWT_USER_SECRET);
 
     res.json({
         message: "Signin successful",
