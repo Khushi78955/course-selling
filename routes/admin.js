@@ -93,16 +93,17 @@ adminRouter.post("/course", adminMiddleware, async function(req, res){
 adminRouter.put("/course", adminMiddleware, async function(req, res){
     const adminId = req.adminId;
 
-    const {title, description, imageUrl, price, courseId} = req.body;
-
-    const course = await courseModel.updateOne({
-        _id: courseId,
+    const {_id, title, description, imageUrl, price, creatorId} = req.body;
+    
+    const result = await courseModel.updateOne({
+        _id: _id,
         creatorId: adminId
     }, {
         title, 
         description, 
         imageUrl, 
-        price
+        price,
+        creatorId
     })
 
     if (result.matchedCount === 0) {
@@ -113,7 +114,7 @@ adminRouter.put("/course", adminMiddleware, async function(req, res){
 
     res.json({
         message: "Course updated",
-        courseId: course._id
+        courseId: _id
     })
 
 })
@@ -131,7 +132,6 @@ adminRouter.get("/course/bulk", adminMiddleware, async function(req, res){
         message: "Course updated",
         courses
     })
-    
 })
 
 

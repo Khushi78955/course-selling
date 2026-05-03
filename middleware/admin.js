@@ -3,18 +3,18 @@ const { JWT_ADMIN_PASSWORD } = require("../config");
 
 function adminMiddleware(req, res, next){
     const token = req.headers.token;
+
+    if (!token) {
+        return res.status(401).json({
+            message: "Token missing"
+        });
+    }
+
     const decoded = jwt.verify(token, JWT_ADMIN_PASSWORD);
 
-    if(decoded){
-        req.adminId = decoded.id;
-        next()
-    } else{
-        res.status(403).json({
-            message: "You are not signed in"
-        })
-    }
+    req.adminId = decoded.id;
+    next();
 }
-
 module.exports = {
     adminMiddleware: adminMiddleware
 }
