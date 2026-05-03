@@ -6,7 +6,7 @@ const { userModel } = require("../db");
 const bcrypt = require("bcrypt");
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
-const JWT_USER_PASSWORD = "ilovemyself"
+const JWT_USER_PASSWORD = process.env.JWT_USER_SECRET;
 
 
 const userRouter = Router();
@@ -41,7 +41,7 @@ userRouter.post("/signin", async function(req, res){
     })
 
     if(!user) {
-        res.status(403).json({
+        return res.status(403).json({
             message: "User not found"
         })
     }
