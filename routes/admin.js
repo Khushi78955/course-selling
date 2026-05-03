@@ -29,6 +29,7 @@ adminRouter.post("/signup", async function(req, res){
             message: "admin already exists or error"
         })
     }
+
 })
 
 
@@ -62,6 +63,7 @@ adminRouter.post("/signin", async function(req, res){
         message: "Signin successful",
         token: token
     })
+
 })
 
 
@@ -83,6 +85,7 @@ adminRouter.post("/course", adminMiddleware, async function(req, res){
         message: "Course created",
         courseId: course._id
     })
+
 })
 
 
@@ -91,7 +94,6 @@ adminRouter.put("/course", adminMiddleware, async function(req, res){
     const adminId = req.adminId;
 
     const {title, description, imageUrl, price, courseId} = req.body;
-
 
     const course = await courseModel.updateOne({
         _id: courseId,
@@ -129,6 +131,7 @@ adminRouter.get("/course/bulk", adminMiddleware, async function(req, res){
         message: "Course updated",
         courses
     })
+    
 })
 
 
