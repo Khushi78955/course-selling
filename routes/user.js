@@ -6,7 +6,7 @@ const { userModel } = require("../db");
 const bcrypt = require("bcrypt");
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
-const JWT_USER_SECRET = process.env.JWT_USER_PASSWORD
+const { JWT_USER_SECRET } = require("../config");
 
 
 const userRouter = Router();

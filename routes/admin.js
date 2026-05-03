@@ -3,7 +3,7 @@ const { adminModel } = require("../db");
 const bcrypt = require("bcrypt");
 const { z } = require("zod");
 const jwt = require("jsonwebtoken");
-const JWT_ADMIN_SECRET = process.env.JWT_ADMIN_PASSWORD
+const { JWT_ADMIN_SECRET } = require("../config");
 
 const adminRouter = Router()
 
